@@ -1,6 +1,6 @@
 package defrac.sample.uievent;
 
-import defrac.app.App;
+import defrac.app.GenericApp;
 import defrac.app.Bootstrap;
 import defrac.display.BlendMode;
 import defrac.display.DisplayObject;
@@ -9,10 +9,10 @@ import defrac.event.Events;
 
 import javax.annotation.Nonnull;
 
-public final class UIEventSample extends App {
+public final class UIEventSample extends GenericApp {
   public static void main(final String[] arguments) {
     // Every defrac application follows usually two rules:
-    //  - It extends defrac.app.App
+    //  - It extends defrac.app.GenericApp
     //  - The main method is just a call to Bootstrap.run(new MyApp());
     //
     // Bootstrap is our platform-agnostic skeleton that will create an
