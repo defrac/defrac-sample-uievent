@@ -2,17 +2,17 @@ package defrac.sample.uievent;
 
 import defrac.display.DisplayObject;
 import defrac.event.Event;
-import defrac.lang.Procedure;
+import defrac.event.EventListener;
 
 import javax.annotation.Nonnull;
 
 // The Animator is attached to the onEnterFrame event.
-// Therefore it must implement Procedure<EnterFrameEvent> or just Procedure<Event>
+// Therefore it must implement EventListener<EnterFrameEvent> or just EventListener<Event>
 //
 // Each time this Animator is notified about an event, it's apply method is called.
 // Have a look at defrac.lang.* to check some of the fundamental types and utilities
 // we use in the framework
-public final class Animator implements Procedure<Event> {
+public final class Animator implements EventListener<Event> {
   @Nonnull
   private final DisplayObject[] displayObjects;
   private final float inertia;
@@ -24,7 +24,7 @@ public final class Animator implements Procedure<Event> {
   }
 
   @Override
-  public void apply(@Nonnull final Event event) {
+  public void onEvent(@Nonnull final Event event) {
     for(final DisplayObject displayObject : displayObjects) {
       final float alpha = displayObject.alpha();
       final float rotation = displayObject.rotation();

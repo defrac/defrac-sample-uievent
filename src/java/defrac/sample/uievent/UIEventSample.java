@@ -42,7 +42,7 @@ public final class UIEventSample extends GenericApp {
 
     // We want to animate those display objects. Let's attach a listener
     // to the onEnterFrame event
-    Events.onEnterFrame.attach(new Animator(displayObjects, 0.09f));
+    Events.onEnterFrame.add(new Animator(displayObjects, 0.09f));
   }
 
   private void createDisplayObjects(@Nonnull final DisplayObjectContainer container) {
