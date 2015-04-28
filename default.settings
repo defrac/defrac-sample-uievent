@@ -1,18 +1,21 @@
 {
   "name": "UIEvent Sample",
-  "package": "com.defrac.sample",
-  "identifier": "uievent",
-  "main": "defrac.sample.uievent.UIEventSample",
+  "package": "com.defrac.sample.uievent",
   "version": "1.0",
+
+  "main": "defrac.sample.uievent.UIEventSample",
+
   "targets": [
     "android",
     "web",
     "jvm"
   ],
+
   "debug": "true",
+
   "web": {
-    "js": "uievent_sample.js",
     "debug": "false",
-    "strictMode": "false"
+    "strictMode": "false",
+    "optimize": "true"
   }
 }
