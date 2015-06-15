@@ -3,7 +3,7 @@
   "package": "com.defrac.sample.uievent",
   "version": "1.0",
 
-  "main": "defrac.sample.uievent.UIEventSample",
+  "main": "defrac.sample.uievent.Main",
 
   "targets": [
     "android",
@@ -11,11 +11,11 @@
     "jvm"
   ],
 
-  "debug": "true",
+  "debug": true,
 
   "web": {
-    "debug": "false",
-    "strictMode": "false",
-    "optimize": "true"
+    "debug": false,
+    "strictMode": false,
+    "optimize": true
   }
 }

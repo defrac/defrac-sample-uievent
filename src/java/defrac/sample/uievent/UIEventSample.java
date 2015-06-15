@@ -1,34 +1,22 @@
 package defrac.sample.uievent;
 
-import defrac.app.GenericApp;
-import defrac.app.Bootstrap;
 import defrac.display.BlendMode;
 import defrac.display.DisplayObject;
 import defrac.display.DisplayObjectContainer;
-import defrac.event.Events;
+import defrac.ui.*;
 
 import javax.annotation.Nonnull;
 
-public final class UIEventSample extends GenericApp {
-  public static void main(final String[] arguments) {
-    // Every defrac application follows usually two rules:
-    //  - It extends defrac.app.GenericApp
-    //  - The main method is just a call to Bootstrap.run(new MyApp());
-    //
-    // Bootstrap is our platform-agnostic skeleton that will create an
-    // app with a rendering context. Once your app has been created,
-    // it will be notified via the onCreate, onStart, ..., onDestroy
-    // methods about its current state and life-cycle.
-    Bootstrap.run(new UIEventSample());
-  }
-
+public final class UIEventSample extends Screen {
   // We are going to draw a bunch of rectangles on the screen.
   // Let's define their size and how many of them we want.
-  private static final int ELEMENTS_HORIZONTAL = 40;
-  private static final int ELEMENTS_VERTICAL = 30;
-  private static final float ELEMENT_WIDTH = 32.0f;
-  private static final float ELEMENT_HEIGHT = 24.0f;
-  private static final int ELEMENTS_TOTAL = ELEMENTS_HORIZONTAL * ELEMENTS_VERTICAL;
+  public static final int ELEMENTS_HORIZONTAL = 40;
+  public static final int ELEMENTS_VERTICAL = 30;
+  public static final float ELEMENT_WIDTH = 32.0f;
+  public static final float ELEMENT_HEIGHT = 24.0f;
+  public static final int ELEMENTS_TOTAL = ELEMENTS_HORIZONTAL * ELEMENTS_VERTICAL;
+
+  private DisplayList displayList;
 
   @Nonnull
   private final DisplayObject[] displayObjects =
@@ -36,13 +24,38 @@ public final class UIEventSample extends GenericApp {
 
   @Override
   protected void onCreate() {
-    // This method is called once when our app has been created.
-    // Let's fill the stage with some display objects
-    createDisplayObjects(stage());
+    super.onCreate();
 
-    // We want to animate those display objects. Let's attach a listener
-    // to the onEnterFrame event
-    Events.onEnterFrame.add(new Animator(displayObjects, 0.09f));
+    LinearLayout layout =
+        LinearLayout.
+            horizontal().
+            gravity(Gravity.CENTER);
+
+    LinearLayout.LayoutConstraints layoutConstraints =
+        new LinearLayout.LayoutConstraints();
+
+    layoutConstraints.width(
+        (int)(ELEMENTS_HORIZONTAL * ELEMENT_WIDTH + 0.5f), PixelUnits.DP);
+    layoutConstraints.height(
+        (int)(ELEMENTS_VERTICAL * ELEMENT_HEIGHT + 0.5f), PixelUnits.DP);
+
+    layoutConstraints.gravity = Gravity.CENTER;
+
+    displayList = new DisplayList();
+    displayList.layoutConstraints(layoutConstraints);
+
+    layout.addView(displayList);
+    rootView(layout);
+
+    displayList.onStageReady(stage -> {
+      // This method is called once when our app has been created.
+      // Let's fill the stage with some display objects
+      createDisplayObjects(stage);
+
+      // We want to animate those display objects. Let's attach a listener
+      // to the onEnterFrame event
+      stage.globalEvents().onEnterFrame.add(new Animator(displayObjects, 0.09f));
+    });
   }
 
   private void createDisplayObjects(@Nonnull final DisplayObjectContainer container) {
@@ -68,16 +81,28 @@ public final class UIEventSample extends GenericApp {
         //  - Move it to a position on screen
         //  - Change the blend mode to ADD
         //  - Finally, we add it as a child to the container
-        //
-        // Hint: The return type of container.addChild would be InteractiveQuad
-        //       in this context
-        displayObjects[displayObjectIndex++] =
-          container.addChild(
+        final DisplayObject quad =
             new InteractiveQuad(ELEMENT_WIDTH - 2.0f, ELEMENT_HEIGHT - 2.0f, color).
-                centerRegistrationPoint().
-                moveTo(halfWidth + x * ELEMENT_WIDTH, halfHeight + y * ELEMENT_HEIGHT)).
-                blendMode(BlendMode.ADD);
+            centerRegistrationPoint().
+            moveTo(halfWidth + x * ELEMENT_WIDTH, halfHeight + y * ELEMENT_HEIGHT).
+            blendMode(BlendMode.ADD);
+
+        displayObjects[displayObjectIndex++] = quad;
+
+        container.addChild(quad);
       }
     }
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    displayList.onPause();
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    displayList.onResume();
   }
 }
