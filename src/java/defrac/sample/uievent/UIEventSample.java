@@ -34,10 +34,8 @@ public final class UIEventSample extends Screen {
     LinearLayout.LayoutConstraints layoutConstraints =
         new LinearLayout.LayoutConstraints();
 
-    layoutConstraints.width(
-        (int)(ELEMENTS_HORIZONTAL * ELEMENT_WIDTH + 0.5f), PixelUnits.DP);
-    layoutConstraints.height(
-        (int)(ELEMENTS_VERTICAL * ELEMENT_HEIGHT + 0.5f), PixelUnits.DP);
+    layoutConstraints.width((int)(ELEMENTS_HORIZONTAL * ELEMENT_WIDTH + 0.5f), PixelUnits.PX);
+    layoutConstraints.height((int)(ELEMENTS_VERTICAL * ELEMENT_HEIGHT + 0.5f), PixelUnits.PX);
 
     layoutConstraints.gravity = Gravity.CENTER;
 
