@@ -7,7 +7,7 @@ import defrac.ui.*;
 
 import javax.annotation.Nonnull;
 
-public final class UIEventSample extends Screen {
+public final class UIEventSample extends ContentScreen {
   // We are going to draw a bunch of rectangles on the screen.
   // Let's define their size and how many of them we want.
   public static final int ELEMENTS_HORIZONTAL = 40;
